@@ -1,4 +1,4 @@
-## Mini web-system processing excel files, a kind of advertising support-base.
+## Mini web-system processing excel files, a kind of advertising support.
 
 ### Folder *spring*
 - Using Java Spring, with maven, JDK 11 & apache poi
