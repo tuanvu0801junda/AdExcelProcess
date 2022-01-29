@@ -27,25 +27,22 @@
     <v-main>
       <!-- <HelloWorld/> -->
       <UploadFile />
-      <UploadAlert />
-      <DownloadErrExcel />
+      <div v-if="upAlertCtrl">
+        <UploadAlert />
+      </div>
+      <div v-if="downErrCtrl">
+        <DownloadErrExcel />
+      </div>
 
-      <div class="text-center">
+      <div v-if="dialog" class="text-center">
         <v-dialog v-model="dialog" width="500">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
-              Click Me
-            </v-btn>
-          </template>
-
           <v-card>
             <v-card-title class="text-h5 grey lighten-2">
               Information
             </v-card-title>
 
             <v-card-text>
-              Process completed!
-              Data from Excel file is saved into database.
+              Process completed! Data from Excel file is saved into database.
             </v-card-text>
 
             <v-divider></v-divider>
@@ -82,7 +79,9 @@ export default {
   data() {
     return {
       dialog: false,
-    }
+      upAlertCtrl: false,
+      downErrCtrl: false,
+    };
   },
 };
 </script>
