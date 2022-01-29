@@ -1,9 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="blue"
-    >
+    <v-app-bar app color="blue">
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -13,21 +10,12 @@
           transition="scale-transition"
           width="40"
         />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
       </div>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/tuanvu0801junda/AdExcelProcess"
         target="_blank"
         text
       >
@@ -38,25 +26,63 @@
 
     <v-main>
       <!-- <HelloWorld/> -->
-      <UploadFile/>
+      <UploadFile />
+      <UploadAlert />
+      <DownloadErrExcel />
+
+      <div class="text-center">
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+              Click Me
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+              Information
+            </v-card-title>
+
+            <v-card-text>
+              Process completed!
+              Data from Excel file is saved into database.
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialog = false">
+                Back to Main Page
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-main>
   </v-app>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-import UploadFile from './components/UploadFile'
+import UploadFile from "./components/UploadFile";
+import UploadAlert from "./components/UploadAlert";
+import DownloadErrExcel from "./components/DownloadErrExcel";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     // HelloWorld,
     UploadFile,
+    UploadAlert,
+    DownloadErrExcel,
   },
 
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      dialog: false,
+    }
+  },
 };
 </script>

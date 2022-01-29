@@ -8,9 +8,9 @@
     <v-spacer></v-spacer>
     <v-form>
       <v-file-input
-        id="file-select"
         counter
-        truncate-length="300"
+        max-width="600"
+        truncate-length="100"
         placeholder="Select an .xlsx file"
         accept=".xlsx"
       >
@@ -28,7 +28,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+    name: 'UploadFile',
+    // data(){
+    //   return {
+        
+    //   }
+    // },
+    methods:{
+      submit(){
+        console.log("Hello")
+      }
+    }
+};
 </script>
 
 <style>
