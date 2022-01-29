@@ -26,9 +26,14 @@
 
     <v-main>
       <!-- <HelloWorld/> -->
-      <UploadFile />
+      <UploadFile
+        @name-err="alertFileName"
+        @size-err="alertFileSize"
+        @ok-reply="oKReply"
+        @err-reply="errReply"
+      />
       <div v-if="upAlertCtrl">
-        <UploadAlert />
+        <UploadAlert :errMessage="this.message" :fileName="this.fileName"/>
       </div>
       <div v-if="downErrCtrl">
         <DownloadErrExcel />
@@ -42,7 +47,7 @@
             </v-card-title>
 
             <v-card-text>
-              Process completed! Data from Excel file is saved into database.
+              Process completed! Data from <b>{{this.fileName}}</b> was saved into database.
             </v-card-text>
 
             <v-divider></v-divider>
@@ -81,7 +86,47 @@ export default {
       dialog: false,
       upAlertCtrl: false,
       downErrCtrl: false,
+      message: '',
+      fileName: '',
+      errFile: null
     };
+  },
+
+  methods: {
+    reset(){
+      this.dialog = false;
+      this.upAlertCtrl = false;
+      this.downErrCtrl = false;
+      this.message = '';
+      this.errFile = null;
+    },
+
+    alertFileName(data) {
+      this.reset();
+      this.upAlertCtrl = true;
+      this.message = data.str;
+      this.fileName = data.fileName;
+    },
+
+    alertFileSize(data) {
+      this.reset();
+      this.upAlertCtrl = true;
+      this.message = data.str;
+      this.fileName = data.fileName;
+    },
+
+    oKReply(data) {
+      this.reset();
+      this.dialog = true;
+      this.fileName = data.fileName;
+    },
+
+    errReply(file) {
+      this.reset();
+      this.downErrCtrl = true;
+      this.errFile = file;
+      // get file, click download --> download error.xlsx
+    },
   },
 };
 </script>

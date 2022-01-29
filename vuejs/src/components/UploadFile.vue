@@ -8,7 +8,10 @@
     <v-spacer></v-spacer>
     <v-form>
       <v-file-input
-        counter
+        @change="uploadFile()"
+        id="file_sl"
+        clearable
+        v-model="clearSignal"
         max-width="600"
         truncate-length="100"
         placeholder="Select an .xlsx file"
@@ -28,18 +31,68 @@
 </template>
 
 <script>
+// import axios from "axios";
+
 export default {
-    name: 'UploadFile',
-    // data(){
-    //   return {
-        
-    //   }
-    // },
-    methods:{
-      submit(){
-        console.log("Hello")
+  name: "UploadFile",
+  data() {
+    return {
+      selected_file: null,
+      clearSignal: null,
+      emitMessage: "",
+      result: 0,
+    };
+  },
+  methods: {
+    uploadFile() {
+      //this.selected_file = event.target.files[0] || event.dataTransfer.files[0];
+      this.selected_file = document.getElementById("file_sl").files[0];
+    },
+    checkName() {
+      if (this.selected_file["name"].length > 10) {
+        this.emitMessage = "File name has more than 250 characters !";
+        return -1;
       }
-    }
+      return 1;
+    },
+    checkSize() {
+      if (this.selected_file["size"] > 4000) {
+        this.emitMessage = "File size must be less than 10MB !"; //1000000
+        return -1;
+      }
+      return 1;
+    },
+    async submit() {
+      this.clearSignal = null;
+      this.result = this.checkName();
+      if (this.result === -1) {
+        this.$emit('name-err', {str: this.emitMessage, fileName: this.selected_file["name"]});        
+        return;
+      }
+
+      this.result = this.checkSize();
+      if (this.result === -1) {
+        this.$emit("size-err", {str: this.emitMessage, fileName: this.selected_file["name"]});
+        return;
+      }
+
+      this.$emit("ok-reply", {fileName: this.selected_file["name"]});
+
+      // try {
+      //   const res = await axios.post("http://127.0.0.1:8080/file/upload",this.selected_file);
+
+      //   if (res.data.status === 200) {
+      //     // process successful
+      //     this.$emit("ok-reply");
+      //   } else {
+      //     // error occured
+      //     this.$emit("err-reply", res.data.file);
+      //   }
+      // } catch (err) {
+      //   console.log(err);
+      // }
+    },
+  },
 };
 </script>
 
