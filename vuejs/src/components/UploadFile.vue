@@ -83,7 +83,7 @@ export default {
 
       //   if (res.data.status === 200) {
       //     // process successful
-      //     this.$emit("ok-reply");
+      //     this.$emit("ok-reply", {fileName: this.selected_file["name"]});
       //   } else {
       //     // error occured
       //     this.$emit("err-reply", res.data.file);

@@ -6,6 +6,15 @@ public class ErrorExcel {
     private int rowNum;
     private String errMessage;
 
+    public ErrorExcel(){}
+
+    public ErrorExcel(String sheetName, String headerName, int rowNum, String errMessage) {
+        this.sheetName = sheetName;
+        this.headerName = headerName;
+        this.rowNum = rowNum;
+        this.errMessage = errMessage;
+    }
+
     public String getSheetName() {
         return sheetName;
     }

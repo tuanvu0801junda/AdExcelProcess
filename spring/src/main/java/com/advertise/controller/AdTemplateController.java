@@ -1,6 +1,7 @@
 package com.advertise.controller;
 
-import com.advertise.service.AdTemplateService;
+import com.advertise.service.AdExcelHandler;
+import com.advertise.service.CampaignExcelHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -57,9 +58,12 @@ public class AdTemplateController {
     }
 
     @Autowired
-    private AdTemplateService adTemplateService;
+    private AdExcelHandler adExcelHandler;
+    @Autowired
+    private CampaignExcelHandler campaignExcelHandler;
 
-    public AdTemplateController(AdTemplateService adTemplateService) {
-        this.adTemplateService = adTemplateService;
+    public AdTemplateController(AdExcelHandler adExcelHandler, CampaignExcelHandler campaignExcelHandler) {
+        this.adExcelHandler = adExcelHandler;
+        this.campaignExcelHandler = campaignExcelHandler;
     }
 }
