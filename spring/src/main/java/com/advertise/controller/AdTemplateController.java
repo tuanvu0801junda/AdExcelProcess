@@ -6,6 +6,7 @@ import com.advertise.entity.ErrorExcel;
 import com.advertise.service.AdExcelHandler;
 import com.advertise.service.CampaignExcelHandler;
 import com.advertise.service.ErrorExcelHandler;
+import org.apache.poi.hpsf.Blob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,7 +28,7 @@ import static java.nio.file.Files.copy;
 import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-@CrossOrigin(origins = "http://localhost:3333/")
+@CrossOrigin(origins = "http://localhost:3333")
 @RestController
 @RequestMapping(path = "/file")
 public class AdTemplateController {

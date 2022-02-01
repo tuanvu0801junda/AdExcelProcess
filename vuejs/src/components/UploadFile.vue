@@ -44,10 +44,19 @@ export default {
     };
   },
   methods: {
+    reset(){
+      this.selected_file = null;
+      this.clearSignal = null;
+      this.emitMessage = "";
+      this.result = 0;
+    },
+
     uploadFile() {
+      this.reset();
       //this.selected_file = event.target.files[0] || event.dataTransfer.files[0];
       this.selected_file = document.getElementById("file_sl").files[0];
     },
+
     checkName() {
       if (this.selected_file["name"].length > 250) {
         this.emitMessage = "File name has more than 250 characters !";
@@ -55,6 +64,7 @@ export default {
       }
       return 1;
     },
+
     checkSize() {
       if (this.selected_file["size"] > 1000000) {
         this.emitMessage = "File size must be less than 10MB !"; 
@@ -62,10 +72,12 @@ export default {
       }
       return 1;
     },
+
     checkNotSubmit(){
       if (this.selected_file == null) return -1;
       else return 1;
     },
+
     async submit() {
       this.clearSignal = null;
       this.result = this.checkNotSubmit();

@@ -10,7 +10,7 @@
     - [Vue CORS guide](https://www.stackhawk.com/blog/vue-cors-guide-what-it-is-and-how-to-enable-it/) 
     - [CORS Viblo](https://viblo.asia/p/tim-hieu-ve-cross-origin-resource-sharing-cors-Az45bGWqKxY)
     - [Spring Boot CORS](https://hocspringboot.net/2020/12/25/cors-la-gi/)
-    - [Sample code Spring Boot](https://github.com/spring-guides/gs-rest-service-cors/blob/main/complete/src/main/java/com/example/restservicecors/RestServiceCorsApplication.java)
+    - [Sample code Spring Boot CORS](https://spring.io/guides/gs/rest-service-cors/)
 
 ### Folder *vuejs*
 #### Front End, port: 3333
@@ -25,5 +25,6 @@
     - add devServer: { port: 3333, } in **module.export** at ***vuejs/vue.config.js***
 - Set API origin using proxy: 
     - add devServer: { proxy: 'http://127.0.0.1:8080/', } in **module.export** at ***vuejs/vue.config.js***
-
+- Download file:
+    - [Download file with BLOB](https://stackoverflow.com/questions/50736657/vue-laravel-how-to-properly-download-a-pdf-file)
 ### Some images about this mini web-system

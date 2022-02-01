@@ -18,7 +18,9 @@ public class Application {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/file").allowedOrigins("http://localhost:3333");
+//				registry.addMapping("/file/upload").allowedOrigins("http://localhost:3333");
+//				registry.addMapping("/file/download/{filename}").allowedOrigins("http://localhost:3333");
+				registry.addMapping("/**");
 			}
 		};
 	}
