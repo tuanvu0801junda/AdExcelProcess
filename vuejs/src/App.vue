@@ -31,12 +31,13 @@
         @size-err="alertFileSize"
         @ok-reply="oKReply"
         @err-reply="errReply"
+        @no-file-err="noFileReply"
       />
       <div v-if="upAlertCtrl">
         <UploadAlert :errMessage="this.message" :fileName="this.fileName"/>
       </div>
       <div v-if="downErrCtrl">
-        <DownloadErrExcel />
+        <DownloadErrExcel :filename="this.fileName"/>
       </div>
 
       <div v-if="dialog" class="text-center">
@@ -87,7 +88,7 @@ export default {
       upAlertCtrl: false,
       downErrCtrl: false,
       message: '',
-      fileName: ''
+      fileName: '',
     };
   },
 
@@ -97,6 +98,7 @@ export default {
       this.upAlertCtrl = false;
       this.downErrCtrl = false;
       this.message = '';
+      this.fileName = null;
     },
 
     alertFileName(data) {
@@ -111,6 +113,12 @@ export default {
       this.upAlertCtrl = true;
       this.message = data.str;
       this.fileName = data.fileName;
+    },
+
+    noFileReply(){
+      this.reset();
+      this.upAlertCtrl = true;
+      this.message = "No file selected ! Please choose an .xlsx file !";
     },
 
     oKReply(data) {

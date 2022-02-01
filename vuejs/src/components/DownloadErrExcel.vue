@@ -1,8 +1,12 @@
 <template>
   <div>
     <v-col align="center">
-      <h3>Your excel file had some error(s) !</h3>
-      <v-btn class="ma-2" outlined color="blue">
+      <!-- <v-alert dense text max-width="450" type="error">
+        Uploaded file: <strong>{{ filename }}</strong> <br> had some error(s) !
+      </v-alert> -->
+
+      <h3>Uploaded file: <span style="color:red">{{ filename }}</span> had some error(s) !</h3>
+      <v-btn class="ma-2" outlined color="red" @click="downloadFile()">
         Download Error.xlsx
         <v-icon right dark> mdi-cloud-download </v-icon>
       </v-btn>
@@ -11,7 +15,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "DownloadErrExcel",
+  props: {
+    filename: String,
+  },
+  methods: {
+    downloadFile() {
+      console.log(this.filename);
+    },
+  },
+};
 </script>
 
 <style>

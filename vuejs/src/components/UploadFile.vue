@@ -62,8 +62,18 @@ export default {
       }
       return 1;
     },
+    checkNotSubmit(){
+      if (this.selected_file == null) return -1;
+      else return 1;
+    },
     async submit() {
       this.clearSignal = null;
+      this.result = this.checkNotSubmit();
+      if (this.result === -1){
+        this.$emit('no-file-err');
+        return;
+      }
+
       this.result = this.checkName();
       if (this.result === -1) {
         this.$emit('name-err', {str: this.emitMessage, fileName: this.selected_file["name"]});        
@@ -77,7 +87,7 @@ export default {
       }
 
       try {
-        var formData = new FormData();
+        var formData = new FormData(); // body, raw, formData in Postman
         formData.append('excelFile',this.selected_file);
         const res = await axios.post("http://127.0.0.1:8080/file/upload",formData);
 

@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-col align="center">
-      <h3>Uploaded file: {{ fileName }}</h3>
-      <v-alert max-width="500" type="error">{{ errMessage }}</v-alert>
+      <div v-if="fileName != null ? true : false">
+        <h3>Uploaded file: <span style="color:red">{{ fileName }}</span></h3>
+      </div>
+      <v-alert max-width="450" type="error">{{ errMessage }}</v-alert>
     </v-col>
   </div>
 </template>
