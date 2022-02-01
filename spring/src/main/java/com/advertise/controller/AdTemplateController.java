@@ -27,6 +27,7 @@ import static java.nio.file.Files.copy;
 import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+@CrossOrigin(origins = "http://localhost:3333/")
 @RestController
 @RequestMapping(path = "/file")
 public class AdTemplateController {
@@ -36,7 +37,7 @@ public class AdTemplateController {
 
     // upload files --> create --> post [CHECKED!]
     @PostMapping("/upload")
-    public HashMap<String, Integer> uploadFiles(@RequestParam("files") MultipartFile uploadedFile) throws IOException {
+    public HashMap<String, Integer> uploadFiles(@RequestParam("excelFile") MultipartFile uploadedFile) throws IOException {
         HashMap<String,Integer> record = new HashMap<>();
 
         // Copy a file to Storage, replace if there was a same-name file

@@ -87,8 +87,7 @@ export default {
       upAlertCtrl: false,
       downErrCtrl: false,
       message: '',
-      fileName: '',
-      errFile: null
+      fileName: ''
     };
   },
 
@@ -98,7 +97,6 @@ export default {
       this.upAlertCtrl = false;
       this.downErrCtrl = false;
       this.message = '';
-      this.errFile = null;
     },
 
     alertFileName(data) {
@@ -121,10 +119,10 @@ export default {
       this.fileName = data.fileName;
     },
 
-    errReply(file) {
+    errReply(data) {
       this.reset();
       this.downErrCtrl = true;
-      this.errFile = file;
+      this.fileName = data.fileName;
       // get file, click download --> download error.xlsx
     },
   },
