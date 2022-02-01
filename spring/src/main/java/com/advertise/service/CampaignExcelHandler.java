@@ -104,9 +104,13 @@ public class CampaignExcelHandler extends ExcelHandler{
                         break;
 
                     case Campaign.startDate_ColumnIndex:
+                        /*
+                        java.util.Date utilStartDate = jDateChooserStart.getDate();
+                        java.sql.Date sqlStartDate = new java.sql.Date(utilStartDate.getTime());
+                        */
                         headerName = "Start Date";
                         Date start = (Date) getCellValue(cell);
-                        if(start.compareTo(new Date()) > 0) campaign.setStartDate(start);
+                        if(start.compareTo(new Date()) > 0) campaign.setStartDate(new java.sql.Date(start.getTime()));
                         else{
                             errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Before today!");
                             errList.add(errorExcel);
@@ -122,7 +126,7 @@ public class CampaignExcelHandler extends ExcelHandler{
                         } else if (end.compareTo(campaign.getStartDate()) < 0){
                             errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Before StartDate!");
                             errList.add(errorExcel);
-                        } else campaign.setEndDate(end);
+                        } else campaign.setEndDate(new java.sql.Date(end.getTime()));
                         break;
 
                     case Campaign.budget_ColumnIndex:
