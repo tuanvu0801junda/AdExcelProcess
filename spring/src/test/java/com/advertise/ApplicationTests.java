@@ -5,10 +5,12 @@ import com.advertise.entity.Campaign;
 import com.advertise.entity.ErrorExcel;
 import com.advertise.service.AdExcelHandler;
 import com.advertise.service.CampaignExcelHandler;
+import com.advertise.service.ErrorExcelHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -52,7 +54,7 @@ class ApplicationTests {
 
 		CampaignExcelHandler campaignHandler = new CampaignExcelHandler();
 		List<Campaign> campaigns = campaignHandler.readCampaignFromExcel(filename);
-		List<ErrorExcel> errCampaign = campaignHandler.getErrList();
+		ArrayList<ErrorExcel> errCampaign = campaignHandler.getErrList();
 
 		System.out.println("campaigns.size = "+campaigns.size());
 		System.out.println("errCampaign.size = "+errCampaign.size());
@@ -61,9 +63,18 @@ class ApplicationTests {
 
 		System.out.println("\n");
 
-		printCampaign(campaigns);
-		printErrList(errCampaign);
-		printAds(ads);
-		printErrList(errAd);
+		ArrayList<ErrorExcel> both = new ArrayList<>();
+		if (errCampaign.size() == 0) printCampaign(campaigns);
+		else {
+			printErrList(errCampaign);
+			both.addAll(errCampaign);
+		}
+		if (errAd.size() == 0) printAds(ads);
+		else {
+			printErrList(errAd);
+			both.addAll(errAd);
+		}
+		ErrorExcelHandler err = new ErrorExcelHandler();
+		err.writeErrorExcel(both);
 	}
 }

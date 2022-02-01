@@ -1,7 +1,11 @@
 package com.advertise.controller;
 
+import com.advertise.entity.Advertisement;
+import com.advertise.entity.Campaign;
+import com.advertise.entity.ErrorExcel;
 import com.advertise.service.AdExcelHandler;
 import com.advertise.service.CampaignExcelHandler;
+import com.advertise.service.ErrorExcelHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.nio.file.Files.copy;
@@ -31,16 +36,40 @@ public class AdTemplateController {
 
     // upload files --> create --> post [CHECKED!]
     @PostMapping("/upload")
-    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
-        List<String> filenames = new ArrayList<>();
-        for (MultipartFile file : multipartFiles) {
-            String filename = file.getOriginalFilename();
-            Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
-            copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
-            // copy a file to Storage, replace if there was a same-name file
-            filenames.add(filename);
+    public HashMap<String, Integer> uploadFiles(@RequestParam("files") MultipartFile uploadedFile) throws IOException {
+        HashMap<String,Integer> record = new HashMap<>();
+
+        // Copy a file to Storage, replace if there was a same-name file
+        String filename = uploadedFile.getOriginalFilename();
+        Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
+        copy(uploadedFile.getInputStream(), fileStorage, REPLACE_EXISTING);
+
+        // Read sheet "Ad"
+        AdExcelHandler adHandler = new AdExcelHandler();
+        List<Advertisement> ads = adHandler.readAdFromExcel(filename);
+        List<ErrorExcel> errAd = adHandler.getErrList();
+
+        // Read sheet "Campaign"
+        CampaignExcelHandler campaignHandler = new CampaignExcelHandler();
+        List<Campaign> campaigns = campaignHandler.readCampaignFromExcel(filename);
+        ArrayList<ErrorExcel> errCampaign = campaignHandler.getErrList();
+
+        // Write error.xlsx if error happened
+        ArrayList<ErrorExcel> both = new ArrayList<>();
+        if (errCampaign.size() != 0) both.addAll(errCampaign);
+        if (errAd.size() != 0) both.addAll(errAd);
+        if (both.size() != 0) {
+            ErrorExcelHandler errorExcelHandler = new ErrorExcelHandler();
+            errorExcelHandler.writeErrorExcel(both);
+            record.put("status", 500);
+            return record;
         }
-        return ResponseEntity.ok().body(filenames);
+
+        //TODO: No error --> save to database
+
+        // Return if no error
+        record.put("status",200);
+        return record;
     }
 
     // download --> take --> get [CHECKED!]
