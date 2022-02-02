@@ -1,18 +1,18 @@
-﻿CREATE TABLE Campaign(
-  campaignID int primary key,
-  campaignName varchar(50),
-  campaignStatus varchar(10),
-  startDate date,
-  endDate date,
+﻿CREATE TABLE campaign(
+  campaign_id int primary key,
+  campaign_name varchar(50),
+  campaign_status varchar(10),
+  start_date date,
+  end_date date,
   budget int
 );
 
-CREATE TABLE Advertisement(
-  adID int primary key,
-  adName varchar(50),
-  adStatus varchar(10),
-  adType varchar(10),
-  bigModifier int
+CREATE TABLE advertisement(
+  ad_id int primary key,
+  ad_name varchar(50),
+  ad_status varchar(10),
+  ad_type varchar(10),
+  big_modifier int
 );
 
 select * from Campaign;

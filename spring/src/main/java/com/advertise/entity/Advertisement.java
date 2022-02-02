@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Advertisement")
+@Table(name = "advertisement")
 public class Advertisement implements Serializable {
     public static final int adID_ColumnIndex = 0;
     public static final int adName_ColumnIndex = 1;
@@ -16,15 +16,19 @@ public class Advertisement implements Serializable {
     public static final int bigModifier_ColumnIndex = 4;
 
     @Id
-    @Column
+    @Column(name = "ad_id")
     private Integer adID;
-    @Column
+
+    @Column(name = "ad_name")
     private String adName;
-    @Column
+
+    @Column(name = "ad_status")
     private String adStatus;
-    @Column
+
+    @Column(name = "ad_type")
     private String adType;
-    @Column
+
+    @Column(name = "big_modifier")
     private Integer bigModifier;
 
     public Advertisement(Integer adID, String adName, String adStatus, String adType, Integer bigModifier) {

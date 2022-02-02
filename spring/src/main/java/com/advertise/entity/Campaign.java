@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Campaign")
+@Table(name = "campaign")
 public class Campaign {
     public static final int campaignID_ColumnIndex = 0;
     public static final int campaignName_ColumnIndex = 1;
@@ -17,22 +17,22 @@ public class Campaign {
     public static final int budget_ColumnIndex = 5;
 
     @Id
-    @Column
+    @Column(name = "campaign_id")
     private Integer campaignID;
 
-    @Column
+    @Column(name = "campaign_name")
     private String campaignName;
 
-    @Column
+    @Column(name = "campaign_status")
     private String campaignStatus;
 
-    @Column
+    @Column(name = "start_date")
     private Date startDate;
 
-    @Column
+    @Column(name = "end_date")
     private Date endDate;
 
-    @Column
+    @Column(name = "budget")
     private Integer budget;
 
     public Campaign(Integer campaignID, String campaignName, String campaignStatus, Date startDate, Date endDate, Integer budget) {
