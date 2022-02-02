@@ -11,6 +11,7 @@
     - [CORS Viblo](https://viblo.asia/p/tim-hieu-ve-cross-origin-resource-sharing-cors-Az45bGWqKxY)
     - [Spring Boot CORS](https://hocspringboot.net/2020/12/25/cors-la-gi/)
     - [Sample code Spring Boot CORS](https://spring.io/guides/gs/rest-service-cors/)
+    - [Handle JPA Interface Initialization with @Autowired](https://viblo.asia/p/spring-boot-2-autowired-primary-qualifier-GrLZD8d3Zk0)
 
 ### Folder *vuejs*
 #### Front End, port: 3333
@@ -27,4 +28,10 @@
     - add devServer: { proxy: 'http://127.0.0.1:8080/', } in **module.export** at ***vuejs/vue.config.js***
 - Download file:
     - [Download file with BLOB](https://stackoverflow.com/questions/50736657/vue-laravel-how-to-properly-download-a-pdf-file)
+
+### Things need to do: 
+- Change PostgreSQL to MySQL
+- Change event finalClean() in VueJS
+- Screenshot and make an image folder
+    
 ### Some images about this mini web-system

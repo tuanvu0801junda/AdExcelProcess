@@ -55,7 +55,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="dialog = false">
+              <v-btn color="primary" text @click="finalClean()">
                 Back to Main Page
               </v-btn>
             </v-card-actions>
@@ -133,6 +133,11 @@ export default {
       this.fileName = data.fileName;
       // get file, click download --> download error.xlsx
     },
+
+    finalClean(){
+      dialog = false;
+
+    }
   },
 };
 </script>

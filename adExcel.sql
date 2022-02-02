@@ -16,7 +16,6 @@ CREATE TABLE advertisement(
 );
 
 select * from Campaign;
-
 select * from Advertisement;
 
 delete from Campaign;
