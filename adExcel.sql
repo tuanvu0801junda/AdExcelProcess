@@ -18,3 +18,9 @@ CREATE TABLE Advertisement(
 select * from Campaign;
 
 select * from Advertisement;
+
+delete from Campaign;
+delete from Advertisement;
+
+drop table Campaign;
+drop table Advertisement;

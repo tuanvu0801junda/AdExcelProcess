@@ -1,10 +1,9 @@
 package com.advertise.entity;
 
-import org.springframework.data.relational.core.mapping.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 import java.sql.Date;
 
 @Entity
@@ -20,14 +19,19 @@ public class Campaign {
     @Id
     @Column
     private Integer campaignID;
+
     @Column
     private String campaignName;
+
     @Column
     private String campaignStatus;
+
     @Column
     private Date startDate;
+
     @Column
     private Date endDate;
+
     @Column
     private Integer budget;
 

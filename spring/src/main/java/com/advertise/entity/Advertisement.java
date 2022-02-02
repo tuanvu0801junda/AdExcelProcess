@@ -1,10 +1,9 @@
 package com.advertise.entity;
 
-import org.springframework.data.relational.core.mapping.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 import java.io.Serializable;
 
 @Entity
