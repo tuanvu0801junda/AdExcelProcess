@@ -3,10 +3,9 @@ package com.advertise.controller;
 import com.advertise.entity.Advertisement;
 import com.advertise.entity.Campaign;
 import com.advertise.entity.ErrorExcel;
-import com.advertise.service.AdExcelHandler;
-import com.advertise.service.CampaignExcelHandler;
-import com.advertise.service.ErrorExcelHandler;
-import org.apache.poi.hpsf.Blob;
+import com.advertise.service.AdExcelService;
+import com.advertise.service.CampaignExcelService;
+import com.advertise.service.ErrorExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -36,6 +35,12 @@ public class AdTemplateController {
     //define a location to store files
     public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads";
 
+    @Autowired
+    private AdExcelService adExcelService;
+
+    @Autowired
+    private CampaignExcelService campaignExcelService;
+
     // upload files --> create --> post [CHECKED!]
     @PostMapping("/upload")
     public HashMap<String, Integer> uploadFiles(@RequestParam("excelFile") MultipartFile uploadedFile) throws IOException {
@@ -47,27 +52,27 @@ public class AdTemplateController {
         copy(uploadedFile.getInputStream(), fileStorage, REPLACE_EXISTING);
 
         // Read sheet "Ad"
-        AdExcelHandler adHandler = new AdExcelHandler();
-        List<Advertisement> ads = adHandler.readAdFromExcel(filename);
-        List<ErrorExcel> errAd = adHandler.getErrList();
+        List<Advertisement> ads = this.adExcelService.readAdFromExcel(filename);
+        ArrayList<ErrorExcel> errAd = this.adExcelService.getErrList();
 
         // Read sheet "Campaign"
-        CampaignExcelHandler campaignHandler = new CampaignExcelHandler();
-        List<Campaign> campaigns = campaignHandler.readCampaignFromExcel(filename);
-        ArrayList<ErrorExcel> errCampaign = campaignHandler.getErrList();
+        List<Campaign> campaigns = this.campaignExcelService.readCampaignFromExcel(filename);
+        ArrayList<ErrorExcel> errCampaign = this.campaignExcelService.getErrList();
 
         // Write error.xlsx if error happened
         ArrayList<ErrorExcel> both = new ArrayList<>();
         if (errCampaign.size() != 0) both.addAll(errCampaign);
         if (errAd.size() != 0) both.addAll(errAd);
         if (both.size() != 0) {
-            ErrorExcelHandler errorExcelHandler = new ErrorExcelHandler();
-            errorExcelHandler.writeErrorExcel(both);
+            ErrorExcelService errorExcelService = new ErrorExcelService();
+            errorExcelService.writeErrorExcel(both);
             record.put("status", 500);
             return record;
         }
 
-        //TODO: No error --> save to database
+        //No error --> save to database
+        this.adExcelService.insertNewAdsIntoDB(ads);
+        this.campaignExcelService.insertCampaignsIntoDB(campaigns);
 
         // Return if no error
         record.put("status",200);
@@ -88,13 +93,8 @@ public class AdTemplateController {
                 .body(resource);
     }
 
-    @Autowired
-    private AdExcelHandler adExcelHandler;
-    @Autowired
-    private CampaignExcelHandler campaignExcelHandler;
-
-    public AdTemplateController(AdExcelHandler adExcelHandler, CampaignExcelHandler campaignExcelHandler) {
-        this.adExcelHandler = adExcelHandler;
-        this.campaignExcelHandler = campaignExcelHandler;
-    }
+//    public AdTemplateController(AdExcelService adExcelService, CampaignExcelService campaignExcelService){
+//        this.adExcelService = adExcelService;
+//        this.campaignExcelService = campaignExcelService;
+//    }
 }

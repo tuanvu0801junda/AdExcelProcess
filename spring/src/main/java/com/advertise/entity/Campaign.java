@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
-@Table(name = "campaign")
+@Table(name = "Campaign")
 public class Campaign {
     public static final int campaignID_ColumnIndex = 0;
     public static final int campaignName_ColumnIndex = 1;

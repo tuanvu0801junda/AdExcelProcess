@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 @Service
-public abstract class ExcelHandler {
+public abstract class ExcelService {
     protected ArrayList<ErrorExcel> errList;
     public final String ActiveStatus = "Active";
     public final String PausedStatus = "Paused";

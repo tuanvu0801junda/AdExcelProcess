@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 @Service
-public class ErrorExcelHandler {
+public class ErrorExcelService {
     private final String errExcelPath = System.getProperty("user.home") + "/Downloads/uploads/Error.xlsx";
     //private final String errExcelPath = "Error.xlsx";
     public final int SHEET_NAME_COL = 0;

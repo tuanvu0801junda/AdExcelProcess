@@ -5,10 +5,11 @@ import org.springframework.data.relational.core.mapping.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "advertisement")
-public class Advertisement {
+@Table(name = "Advertisement")
+public class Advertisement implements Serializable {
     public static final int adID_ColumnIndex = 0;
     public static final int adName_ColumnIndex = 1;
     public static final int adStatus_ColumnIndex = 2;

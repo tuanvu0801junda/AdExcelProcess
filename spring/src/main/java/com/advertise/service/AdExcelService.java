@@ -2,7 +2,9 @@ package com.advertise.service;
 
 import com.advertise.entity.Advertisement;
 import com.advertise.entity.ErrorExcel;
+import com.advertise.repository.AdvertisementRepo;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
@@ -13,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class AdExcelHandler extends ExcelHandler{
-    public final String SheetName = "Ad";
+public class AdExcelService extends ExcelService {
+
+    @Autowired
+    private AdvertisementRepo advertisementRepo;
 
     public boolean isAdTypeValid(String adType) {
         boolean result = true;
@@ -29,6 +33,7 @@ public class AdExcelHandler extends ExcelHandler{
     public List<Advertisement> readAdFromExcel(String filename) throws NullPointerException, IOException {
         List<Advertisement> advertisements = new ArrayList<>();
         String headerName;
+        String sheetName = "Ad";
         String path = this.excelPath + filename;
         ErrorExcel errorExcel;
         this.errList = new ArrayList<>();
@@ -67,13 +72,13 @@ public class AdExcelHandler extends ExcelHandler{
                     case Advertisement.adID_ColumnIndex:
                         headerName = "Ad ID";
                         if (cell.getCellType() != CellType.NUMERIC) {
-                            errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not Int");
+                            errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not Int");
                             errList.add(errorExcel);
                         } else {
                             int id = (int) Math.round((Double) getCellValue(cell));
                             if (id < 1000000000) advertisement.setAdID(id);
                             else{
-                                errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "> 10^9");
+                                errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "> 10^9");
                                 errList.add(errorExcel);
                             }
                         }
@@ -82,13 +87,13 @@ public class AdExcelHandler extends ExcelHandler{
                     case Advertisement.adName_ColumnIndex:
                         headerName = "Ad Name";
                         if (cell.getCellType() != CellType.STRING) {
-                            errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not String");
+                            errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not String");
                             errList.add(errorExcel);
                         } else {
                             String name = (String) getCellValue(cell);
                             if (name.length() <= 25) advertisement.setAdName(name);
                             else {
-                                errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Length > 25");
+                                errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Length > 25");
                                 errList.add(errorExcel);
                             }
                         }
@@ -97,13 +102,13 @@ public class AdExcelHandler extends ExcelHandler{
                     case Advertisement.adStatus_ColumnIndex:
                         headerName = "Ad Status";
                         if (cell.getCellType() != CellType.STRING){
-                            errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not String");
+                            errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not String");
                             errList.add(errorExcel);
                         } else {
                             String status = (String) getCellValue(cell);
                             if (checkIfStatusValid(status)) advertisement.setAdStatus(status);
                             else {
-                                errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not Active, Paused | Removed");
+                                errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not Active, Paused | Removed");
                                 errList.add(errorExcel);
                             }
                         }
@@ -112,14 +117,14 @@ public class AdExcelHandler extends ExcelHandler{
                     case Advertisement.adType_ColumnIndex:
                         headerName = "Ad Type";
                         if (cell.getCellType() != CellType.STRING) {
-                            errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not String");
+                            errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not String");
                             errList.add(errorExcel);
                         }
                         else {
                             String type = (String) getCellValue(cell);
                             if (isAdTypeValid(type)) advertisement.setAdType(cell.getStringCellValue());
                             else{
-                                errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not Search, Display | Video");
+                                errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not Search, Display | Video");
                                 errList.add(errorExcel);
                             }
                         }
@@ -128,14 +133,14 @@ public class AdExcelHandler extends ExcelHandler{
                     case Advertisement.bigModifier_ColumnIndex:
                         headerName = "Big Modifier";
                         if (cell.getCellType() != CellType.NUMERIC) {
-                            errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "Not Int");
+                            errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "Not Int");
                             errList.add(errorExcel);
                         }
                         else {
                             int big = (int) Math.round((Double) getCellValue(cell));
                             if (big < 5000) advertisement.setBigModifier(big);
                             else{
-                                errorExcel = new ErrorExcel(SheetName, headerName, nextRow.getRowNum(), "> 5000");
+                                errorExcel = new ErrorExcel(sheetName, headerName, nextRow.getRowNum(), "> 5000");
                                 errList.add(errorExcel);
                             }
                         }
@@ -159,4 +164,11 @@ public class AdExcelHandler extends ExcelHandler{
             }
         return advertisements;
     }
+
+    public void insertNewAdsIntoDB(List<Advertisement> adList){
+        for(Advertisement ad: adList){
+            advertisementRepo.save(ad);
+        }
+    }
+
 }

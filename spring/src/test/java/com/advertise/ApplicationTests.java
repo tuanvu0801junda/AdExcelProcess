@@ -3,18 +3,27 @@ package com.advertise;
 import com.advertise.entity.Advertisement;
 import com.advertise.entity.Campaign;
 import com.advertise.entity.ErrorExcel;
-import com.advertise.service.AdExcelHandler;
-import com.advertise.service.CampaignExcelHandler;
-import com.advertise.service.ErrorExcelHandler;
+import com.advertise.repository.AdvertisementRepo;
+import com.advertise.service.AdExcelService;
+import com.advertise.service.CampaignExcelService;
+import com.advertise.service.ErrorExcelService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@EnableJpaRepositories
 class ApplicationTests {
+
+	@Autowired
+	private static AdvertisementRepo advertisementRepo;
 
 	public static void printAds(List<Advertisement> ads){
 		for (Advertisement ad: ads){
@@ -47,12 +56,12 @@ class ApplicationTests {
 
 	@Test
 	public static void main(String[] args) throws IOException {
-		String filename = "Ad_Template.xlsx";
-		AdExcelHandler adHandler = new AdExcelHandler();
+		String filename = "Advertising_Template_1.xlsx";
+		AdExcelService adHandler = new AdExcelService();
 		List<Advertisement> ads = adHandler.readAdFromExcel(filename);
 		List<ErrorExcel> errAd = adHandler.getErrList();
 
-		CampaignExcelHandler campaignHandler = new CampaignExcelHandler();
+		CampaignExcelService campaignHandler = new CampaignExcelService();
 		List<Campaign> campaigns = campaignHandler.readCampaignFromExcel(filename);
 		ArrayList<ErrorExcel> errCampaign = campaignHandler.getErrList();
 
@@ -74,7 +83,16 @@ class ApplicationTests {
 			printErrList(errAd);
 			both.addAll(errAd);
 		}
-		ErrorExcelHandler err = new ErrorExcelHandler();
+		ErrorExcelService err = new ErrorExcelService();
 		err.writeErrorExcel(both);
+
+		ConfigurableApplicationContext context = SpringApplication.run(ApplicationTests.class, args);
+		AdvertisementRepo advertisementRepo = context.getBean(AdvertisementRepo.class);
+		Advertisement newAd = advertisementRepo.save(ads.get(0));
+		System.out.print(newAd.getAdID());
+		System.out.print("-" + newAd.getAdName());
+		System.out.print("-" + newAd.getAdStatus());
+		System.out.print("-" + newAd.getAdType());
+		System.out.println("-" + newAd.getBigModifier() + "\n");
 	}
 }
