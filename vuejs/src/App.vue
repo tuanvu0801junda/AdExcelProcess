@@ -135,7 +135,7 @@ export default {
     },
 
     finalClean(){
-      dialog = false;
+      this.dialog = false;
 
     }
   },
