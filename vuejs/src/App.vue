@@ -34,10 +34,10 @@
         @no-file-err="noFileReply"
       />
       <div v-if="upAlertCtrl">
-        <UploadAlert :errMessage="this.message" :fileName="this.fileName"/>
+        <UploadAlert :errMessage="this.message" :fileName="this.fileName" />
       </div>
       <div v-if="downErrCtrl">
-        <DownloadErrExcel :filename="this.fileName"/>
+        <DownloadErrExcel :filename="this.fileName" />
       </div>
 
       <div v-if="dialog" class="text-center">
@@ -48,7 +48,8 @@
             </v-card-title>
 
             <v-card-text>
-              Process completed! Data from <b>{{this.fileName}}</b> was saved into database.
+              Process completed! Data from <b>{{ this.fileName }}</b> was saved
+              into database.
             </v-card-text>
 
             <v-divider></v-divider>
@@ -68,9 +69,9 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-import UploadFile from "./components/UploadFile";
-import UploadAlert from "./components/UploadAlert";
-import DownloadErrExcel from "./components/DownloadErrExcel";
+import UploadFile from "./components/excelFileProcess/UploadFile";
+import UploadAlert from "./components/excelFileProcess/UploadAlert";
+import DownloadErrExcel from "./components/excelFileProcess/DownloadErrExcel";
 
 export default {
   name: "App",
@@ -87,17 +88,17 @@ export default {
       dialog: false,
       upAlertCtrl: false,
       downErrCtrl: false,
-      message: '',
-      fileName: '',
+      message: "",
+      fileName: "",
     };
   },
 
   methods: {
-    reset(){
+    reset() {
       this.dialog = false;
       this.upAlertCtrl = false;
       this.downErrCtrl = false;
-      this.message = '';
+      this.message = "";
       this.fileName = null;
     },
 
@@ -115,7 +116,7 @@ export default {
       this.fileName = data.fileName;
     },
 
-    noFileReply(){
+    noFileReply() {
       this.reset();
       this.upAlertCtrl = true;
       this.message = "No file selected ! Please choose an .xlsx file !";
@@ -134,10 +135,9 @@ export default {
       // get file, click download --> download error.xlsx
     },
 
-    finalClean(){
+    finalClean() {
       this.dialog = false;
-
-    }
+    },
   },
 };
 </script>
